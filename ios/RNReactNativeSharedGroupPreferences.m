@@ -43,6 +43,21 @@ RCT_EXPORT_MODULE()
     [mySharedDefaults setValue:value forKey:key];
     callback(@[[NSNull null]]);
   }
+  
+  RCT_EXPORT_METHOD(removeItem: (NSString *)key :(NSString *)appGroup :(RCTResponseSenderBlock)callback) {
+		if (![appGroup isEqualToString:appGroupName]) {
+		  appGroupName = appGroup;
+		  mySharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:appGroup];
+		}
+		if (mySharedDefaults == nil) {
+		  // error code 0 == no user defaults with that suite name available
+		  callback(@[@0]);
+		  return;
+		}
+
+		[mySharedDefaults removeObjectForKey:key];
+		callback(@[[NSNull null]]);
+	}
 
 /*
   RCT_EXPORT_METHOD(saveFile: (NSString *)filenameAndKey :(NSString *)urlToFile :(NSString *)appGroup :(NSDictionary *)options :(RCTResponseSenderBlock)callback) {

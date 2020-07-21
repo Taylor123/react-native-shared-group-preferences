@@ -48,6 +48,23 @@ export default class SharedGroupPreferences {
       })
     })
   }
+
+  // only supported for iOS at the moment
+  static async removeItem(key, appGroup) {
+    return new Promise((resolve, reject) => {
+      if (Platform.OS !== 'ios') {
+        reject(Platform.OS)
+      }
+
+      RNReactNativeSharedGroupPreferences.removeItem(key, appGroup, error => {
+        if (error != null) {
+          reject(error)
+        } else {
+          resolve()
+        }
+      })
+    })
+  }
 /*
   static async saveFile(filenameAndKey, urlToFile, appGroup, inputOptions) {
     return new Promise((resolve, reject)=>{
